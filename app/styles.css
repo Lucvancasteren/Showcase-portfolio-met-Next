@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+    .statusLights {
+      display: none !important;
+    }
+    .alwaysVisibleText {
+      display: none !important;
+    }
+    .searchBar {
+      display: none !important;
+    }
+  }

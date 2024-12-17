@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Terminal } from "lucide-react";
+import "./styles.css";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,7 @@ export default function Home() {
     if (e.key === "Enter") {
       if (searchInput.toLowerCase() === "help") {
         setDisplayText(
-          "[bject Object]undefinedUnknow command. Type \"help\" for available commands.undefined"
+          '[bject Object]undefinedUnknow command. Type "help" for available commands.undefined'
         );
       } else {
         setDisplayText("[bject Object]undefined"); // Default text when input doesn't match "help"
@@ -27,17 +28,19 @@ export default function Home() {
   return (
     <div style={styles.container}>
       {/* Status Lights */}
-      <div style={styles.statusLights}>
+      <div className="statusLights" style={styles.statusLights}>
         <div style={styles.lightRed}></div>
         <div style={styles.lightYellow}></div>
         <div style={styles.lightGreen}></div>
       </div>
 
       {/* Always Visible Text */}
-      <div style={styles.alwaysVisibleText}>{displayText}</div>
+      <div className="alwaysVisibleText" style={styles.alwaysVisibleText}>
+        {displayText}
+      </div>
 
       {/* Search Bar */}
-      <div style={styles.searchBar}>
+      <div className="searchBar" style={styles.searchBar}>
         <input
           type="text"
           placeholder="Enter command..."
@@ -54,7 +57,7 @@ export default function Home() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Knop rechtsboven */}
+      {/* Menu Button */}
       <button style={styles.menuButton} onClick={toggleMenu}>
         <Terminal size={40} color="black" />
       </button>
@@ -95,8 +98,7 @@ const styles = {
     height: "180%",
     objectFit: "contain",
   },
-  
-  // Status lights styles
+
   statusLights: {
     position: "absolute",
     top: "70px",
@@ -105,49 +107,28 @@ const styles = {
     gap: "10px",
     zIndex: 22,
   },
-  lightRed: {
-    width: "15px",
-    height: "15px",
-    backgroundColor: "#FF605C",
-    borderRadius: "50%",
-  },
-  lightYellow: {
-    width: "15px",
-    height: "15px",
-    backgroundColor: "#FFBD44",
-    borderRadius: "50%",
-  },
-  lightGreen: {
-    width: "15px",
-    height: "15px",
-    backgroundColor: "#00CA4E",
-    borderRadius: "50%",
-  },
+  lightRed: { width: "15px", height: "15px", backgroundColor: "#FF605C", borderRadius: "50%" },
+  lightYellow: { width: "15px", height: "15px", backgroundColor: "#FFBD44", borderRadius: "50%" },
+  lightGreen: { width: "15px", height: "15px", backgroundColor: "#00CA4E", borderRadius: "50%" },
 
-  // Always visible text styles
   alwaysVisibleText: {
     position: "absolute",
-    top: "100px", // Verlaagd
+    top: "100px",
     left: "15rem",
     color: "#4CAF50",
     fontSize: "18px",
     fontFamily: "monospace",
-    textAlign: "left",
-    whiteSpace: "nowrap",
-    overflow: "visible",
     zIndex: 21,
   },
 
-  // Searchbar styles
   searchBar: {
     position: "absolute",
-    top: "140px", // Verlaagd
+    top: "140px",
     left: "15rem",
     display: "flex",
     alignItems: "center",
     backgroundColor: "#000",
     border: "2px solid #4CAF50",
-    borderRadius: "0px",
     padding: "5px 10px",
     zIndex: 20,
     width: "60%",
@@ -160,7 +141,6 @@ const styles = {
     fontSize: "16px",
     fontFamily: "monospace",
     width: "100%",
-    padding: "5px",
   },
 
   menuButton: {
@@ -171,12 +151,10 @@ const styles = {
     border: "none",
     width: "60px",
     height: "60px",
-    borderRadius: "0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     cursor: "pointer",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
     zIndex: 10,
   },
   menu: {
@@ -188,30 +166,8 @@ const styles = {
     color: "#4CAF50",
     padding: "10px 20px",
     zIndex: 9,
-    borderRadius: "0",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
     width: "300px",
   },
-  menuList: {
-    listStyle: "none",
-    padding: "0",
-    margin: "0",
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    fontSize: "18px",
-    fontFamily: "monospace",
-    textAlign: "left",
-    width: "100%",
-  },
-  menuItem: {
-    cursor: "pointer",
-    transition: "color 0.3s",
-    color: "#4CAF50",
-    padding: "5px 0",
-  },
+  menuList: { listStyle: "none", padding: "0", margin: "0", fontFamily: "monospace" },
+  menuItem: { cursor: "pointer", transition: "color 0.3s", color: "#4CAF50" },
 };
