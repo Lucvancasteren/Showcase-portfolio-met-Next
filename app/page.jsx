@@ -1,25 +1,46 @@
 "use client";
 
 import { useState } from "react";
-import { Terminal } from "lucide-react"; // Zorg ervoor dat 'lucide-react' is geïnstalleerd!
+import { Terminal } from "lucide-react";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState(""); // State for search input
+  const [displayText, setDisplayText] = useState("[bject Object]undefined");
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (searchInput.toLowerCase() === "help") {
+        setDisplayText(
+          "[bject Object]undefinedUnknow command. Type \"help\" for available commands.undefined"
+        );
+      }
+    }
+  };
+
   return (
     <div style={styles.container}>
+      {/* Always Visible Text */}
+      <div style={styles.alwaysVisibleText}>[bject Object]undefined</div>
+
+      {/* Search Bar */}
+      <div style={styles.searchBar}>
+        <input
+          type="text"
+          placeholder="Enter command..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          style={styles.searchInput}
+        />
+      </div>
+
       {/* Video */}
-      <video
-        style={styles.video}
-        autoPlay
-        muted
-        loop
-        playsInline
-      >
+      <video style={styles.video} autoPlay muted loop playsInline>
         <source src="/afbeeldingen/luc.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -65,16 +86,58 @@ const styles = {
     height: "180%",
     objectFit: "contain",
   },
+  
+  // Always visible text styles
+  alwaysVisibleText: {
+    position: "absolute",
+    top: "50px",          // Positie bovenaan
+    left: "15rem",        // Verplaats naar rechts
+    color: "#4CAF50",
+    fontSize: "18px",
+    fontFamily: "monospace",
+    textAlign: "left",
+    whiteSpace: "nowrap", // Voorkomt afbreken van tekst
+    overflow: "visible",  // Zorgt dat tekst zichtbaar blijft
+    maxWidth: "calc(100% - 20rem)", // Beperkt breedte van de tekst tot het scherm
+    zIndex: 1,           // Zorgt dat het boven andere elementen staat
+  },
+  
+  
+
+  // Searchbar styles
+  searchBar: {
+    position: "absolute",
+    top: "80px",
+    left: "15rem",
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#000",
+    border: "2px solid #4CAF50",
+    borderRadius: "0px",
+    padding: "5px 10px",
+    zIndex: 20,
+    width: "60%",
+  },
+  searchInput: {
+    background: "#000",
+    color: "#4CAF50",
+    border: "none",
+    outline: "none",
+    fontSize: "16px",
+    fontFamily: "monospace",
+    width: "100%",
+    padding: "5px",
+  },
 
   menuButton: {
     position: "absolute",
     top: "20px",
     right: "20px",
-    backgroundColor: "#4CAF50", // Groen
+    backgroundColor: "#4CAF50",
     border: "none",
-    width: "60px", // Maak de knop kleiner
-    height: "60px", // Maak de knop kleiner
-    borderRadius: "0", // Verwijder border radius
+    width: "60px",
+    height: "60px",
+    borderRadius: "0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -82,44 +145,39 @@ const styles = {
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
     zIndex: 10,
   },
-  
   menu: {
     position: "absolute",
-    top: "100px", // Ruimte tussen de knop en het menu
-    right: "20px", // Uitlijnen met de knop
-    backgroundColor: "black", // Achtergrondkleur
-    border: "2px solid #4CAF50", // Groen kader
-    color: "#4CAF50", // Groen tekstkleur
-    padding: "10px 20px", // Binnenruimte rondom de nav-links
+    top: "150px",
+    right: "20px",
+    backgroundColor: "black",
+    border: "2px solid #4CAF50",
+    color: "#4CAF50",
+    padding: "10px 20px",
     zIndex: 9,
-    borderRadius: "0", // Geen afgeronde hoeken
+    borderRadius: "0",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start", // Links uitlijnen van de tekst
+    alignItems: "flex-start",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
-    width: "250px", // Breder maken van het kader
+    width: "300px",
   },
-  
-  
   menuList: {
     listStyle: "none",
     padding: "0",
     margin: "0",
     display: "flex",
     flexDirection: "column",
-    gap: "10px", // Ruimte tussen nav-links
+    gap: "10px",
     fontSize: "18px",
     fontFamily: "monospace",
-    textAlign: "left", // Links uitlijnen van de tekst
-    width: "100%", // Zorg dat de tekstlinks de volledige breedte hebben
+    textAlign: "left",
+    width: "100%",
   },
-  
   menuItem: {
     cursor: "pointer",
     transition: "color 0.3s",
     color: "#4CAF50",
-    padding: "5px 0", // Ruimte rondom de tekst
+    padding: "5px 0",
   },
-  
 };
