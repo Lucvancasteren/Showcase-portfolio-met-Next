@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { Terminal } from "lucide-react";
-import "./styles.css";
 import Link from "next/link";
 
 
-export default function Home() {
+export default function projects() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(""); // State for search input
   const [displayText, setDisplayText] = useState("[bject Object]undefined");
@@ -29,35 +28,6 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
-      {/* Status Lights */}
-      <div className="statusLights" style={styles.statusLights}>
-        <div style={styles.lightRed}></div>
-        <div style={styles.lightYellow}></div>
-        <div style={styles.lightGreen}></div>
-      </div>
-
-      {/* Always Visible Text */}
-      <div className="alwaysVisibleText" style={styles.alwaysVisibleText}>
-        {displayText}
-      </div>
-
-      {/* Search Bar */}
-      <div className="searchBar" style={styles.searchBar}>
-        <input
-          type="text"
-          placeholder="Enter command..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          style={styles.searchInput}
-        />
-      </div>
-
-      {/* Video */}
-      <video style={styles.video} autoPlay muted loop playsInline>
-        <source src="/afbeeldingen/luc.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
 
       {/* Menu Button */}
       <button style={styles.menuButton} onClick={toggleMenu}>
@@ -194,5 +164,6 @@ const styles = {
     padding: "0", // Verwijder padding hier
     lineHeight: "1.2", // Regelafstand zonder impact op grootte
   },
+  
   
 }  
