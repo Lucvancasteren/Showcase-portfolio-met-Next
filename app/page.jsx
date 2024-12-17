@@ -18,6 +18,8 @@ export default function Home() {
         setDisplayText(
           "[bject Object]undefinedUnknow command. Type \"help\" for available commands.undefined"
         );
+      } else {
+        setDisplayText("[bject Object]undefined"); // Default text when input doesn't match "help"
       }
     }
   };
@@ -25,7 +27,7 @@ export default function Home() {
   return (
     <div style={styles.container}>
       {/* Always Visible Text */}
-      <div style={styles.alwaysVisibleText}>[bject Object]undefined</div>
+      <div style={styles.alwaysVisibleText}>{displayText}</div>
 
       {/* Search Bar */}
       <div style={styles.searchBar}>
@@ -90,19 +92,16 @@ const styles = {
   // Always visible text styles
   alwaysVisibleText: {
     position: "absolute",
-    top: "50px",          // Positie bovenaan
-    left: "15rem",        // Verplaats naar rechts
+    top: "50px",
+    left: "15rem",
     color: "#4CAF50",
     fontSize: "18px",
     fontFamily: "monospace",
     textAlign: "left",
-    whiteSpace: "nowrap", // Voorkomt afbreken van tekst
-    overflow: "visible",  // Zorgt dat tekst zichtbaar blijft
-    maxWidth: "calc(100% - 20rem)", // Beperkt breedte van de tekst tot het scherm
-    zIndex: 1,           // Zorgt dat het boven andere elementen staat
+    whiteSpace: "nowrap",
+    overflow: "visible",
+    zIndex: 21,
   },
-  
-  
 
   // Searchbar styles
   searchBar: {
