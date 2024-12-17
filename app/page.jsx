@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import { Terminal } from "lucide-react";
-import "./styles.css";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-
+import "./styles.css";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchInput, setSearchInput] = useState(""); // State for search input
+  const [searchInput, setSearchInput] = useState("");
   const [displayText, setDisplayText] = useState("[bject Object]undefined");
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,11 +19,12 @@ export default function Home() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (searchInput.toLowerCase() === "help") {
-        setDisplayText(
-          '[bject Object]undefinedUnknow command. Type "help" for available commands.undefined'
-        );
+        setDisplayText('[bject Object]undefinedUnknown command. Type "help" for available commands.undefined');
+      } else if (searchInput.toLowerCase() === "projects") {
+        router.push("/projects");
+        setDisplayText("Navigating to projects...");
       } else {
-        setDisplayText("[bject Object]undefined"); // Default text when input doesn't match "help"
+        setDisplayText("[bject Object]undefined");
       }
     }
   };
@@ -68,12 +70,12 @@ export default function Home() {
       {isMenuOpen && (
         <div style={styles.menu}>
           <ul style={styles.menuList}>
-          <Link href="/">
-              <span>home</span>
+            <Link href="/">
+              <span style={styles.menuItem}>home</span>
             </Link>
             <li style={styles.menuItem}>about</li>
             <li style={styles.menuItem}>
-            <Link href="/projects">projects</Link>
+              <Link href="/projects">projects</Link>
             </li>
             <li style={styles.menuItem}>contact</li>
             <li style={styles.menuItem}>help</li>
@@ -165,7 +167,7 @@ const styles = {
   },
   menu: {
     position: "absolute",
-    top: "100px", // Verklein de afstand naar de menu-knop (van 150px naar 100px)
+    top: "100px",
     right: "20px",
     backgroundColor: "black",
     border: "2px solid #4CAF50",
@@ -179,20 +181,19 @@ const styles = {
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
-  
+
   menuList: {
     listStyle: "none",
     padding: "0",
     margin: "0",
     display: "flex",
     flexDirection: "column",
-    gap: "15px", // Gelijke ruimte tussen de items
-    alignItems: "flex-start", // Zorg dat de tekst links blijft uitgelijnd
+    gap: "15px",
+    alignItems: "flex-start",
   },
   menuItem: {
     cursor: "pointer",
-    padding: "0", // Verwijder padding hier
-    lineHeight: "1.2", // Regelafstand zonder impact op grootte
+    padding: "0",
+    lineHeight: "1.2",
   },
-  
-}  
+};
