@@ -26,6 +26,13 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
+      {/* Status Lights */}
+      <div style={styles.statusLights}>
+        <div style={styles.lightRed}></div>
+        <div style={styles.lightYellow}></div>
+        <div style={styles.lightGreen}></div>
+      </div>
+
       {/* Always Visible Text */}
       <div style={styles.alwaysVisibleText}>{displayText}</div>
 
@@ -89,10 +96,38 @@ const styles = {
     objectFit: "contain",
   },
   
+  // Status lights styles
+  statusLights: {
+    position: "absolute",
+    top: "70px",
+    left: "15rem",
+    display: "flex",
+    gap: "10px",
+    zIndex: 22,
+  },
+  lightRed: {
+    width: "15px",
+    height: "15px",
+    backgroundColor: "#FF605C",
+    borderRadius: "50%",
+  },
+  lightYellow: {
+    width: "15px",
+    height: "15px",
+    backgroundColor: "#FFBD44",
+    borderRadius: "50%",
+  },
+  lightGreen: {
+    width: "15px",
+    height: "15px",
+    backgroundColor: "#00CA4E",
+    borderRadius: "50%",
+  },
+
   // Always visible text styles
   alwaysVisibleText: {
     position: "absolute",
-    top: "50px",
+    top: "100px", // Verlaagd
     left: "15rem",
     color: "#4CAF50",
     fontSize: "18px",
@@ -106,7 +141,7 @@ const styles = {
   // Searchbar styles
   searchBar: {
     position: "absolute",
-    top: "80px",
+    top: "140px", // Verlaagd
     left: "15rem",
     display: "flex",
     alignItems: "center",
