@@ -4,21 +4,21 @@ import { useState } from "react";
 import { Terminal } from "lucide-react";
 import Link from "next/link";
 
-
-export default function projects() {
+export default function Projects() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(""); // State for search input
   const [displayText, setDisplayText] = useState("[bject Object]undefined");
 
+  // Toggle function for opening/closing the menu
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(!isMenuOpen); // Toggle the menu open/closed
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (searchInput.toLowerCase() === "help") {
         setDisplayText(
-          '[bject Object]undefinedUnknow command. Type "help" for available commands.undefined'
+          '[bject Object]undefinedUnknown command. Type "help" for available commands.undefined'
         );
       } else {
         setDisplayText("[bject Object]undefined"); // Default text when input doesn't match "help"
@@ -26,10 +26,11 @@ export default function projects() {
     }
   };
 
+  // Hover state for all images
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
   return (
     <div style={styles.container}>
-
-      {/* Menu Button */}
       <button style={styles.menuButton} onClick={toggleMenu}>
         <Terminal size={40} color="black" />
       </button>
@@ -38,18 +39,37 @@ export default function projects() {
       {isMenuOpen && (
         <div style={styles.menu}>
           <ul style={styles.menuList}>
-          <Link href="/">
-              <span>home</span>
+            <Link href="/">
+              <span style={styles.menuItem}>home</span>
             </Link>
             <li style={styles.menuItem}>about</li>
             <li style={styles.menuItem}>
-            <Link href="/projects">projects</Link>
+              <Link href="/projects">projects</Link>
             </li>
             <li style={styles.menuItem}>contact</li>
             <li style={styles.menuItem}>help</li>
           </ul>
         </div>
       )}
+
+      {/* Afbeeldingen naast elkaar met horizontale scroll */}
+      <div style={styles.imageContainer}>
+        {['mac2.png', 'mac2.png', 'mac2.png', 'mac2.png'].map((image, index) => (
+          <img
+            key={index}
+            src={`/afbeeldingen/${image}`} // Dynamic image path
+            alt={`Image ${index + 1}`}
+            style={{
+              ...styles.image,
+              marginLeft: index === 0 ? "40px" : "20px", // Only first image gets extra margin
+              backgroundColor: hoveredIndex === index ? "#ffffff" : "transparent", // Background color on hover
+              ...(hoveredIndex === index ? styles.imageHover : {}), // Apply hover effect only to hovered image
+            }}
+            onMouseEnter={() => setHoveredIndex(index)} // Hover start for this image
+            onMouseLeave={() => setHoveredIndex(null)} // Hover stop
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -65,58 +85,33 @@ const styles = {
     alignItems: "center",
     overflow: "hidden",
   },
-  video: {
-    position: "absolute",
-    top: "40%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100%",
-    height: "180%",
-    objectFit: "contain",
-  },
 
-  statusLights: {
-    position: "absolute",
-    top: "70px",
-    left: "15rem",
+  // Image container for horizontal scroll
+  imageContainer: {
     display: "flex",
-    gap: "10px",
-    zIndex: 22,
-  },
-  lightRed: { width: "15px", height: "15px", backgroundColor: "#FF605C", borderRadius: "50%" },
-  lightYellow: { width: "15px", height: "15px", backgroundColor: "#FFBD44", borderRadius: "50%" },
-  lightGreen: { width: "15px", height: "15px", backgroundColor: "#00CA4E", borderRadius: "50%" },
-
-  alwaysVisibleText: {
-    position: "absolute",
-    top: "100px",
-    left: "15rem",
-    color: "#4CAF50",
-    fontSize: "18px",
-    fontFamily: "monospace",
-    zIndex: 21,
+    overflowX: "auto", // Enable horizontal scrolling
+    gap: "10px", // Space between images
+    padding: "10px",
+    scrollbarWidth: "none", // Hide the scrollbar in Firefox
   },
 
-  searchBar: {
-    position: "absolute",
-    top: "140px",
-    left: "15rem",
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "#000",
-    border: "2px solid #4CAF50",
-    padding: "5px 10px",
-    zIndex: 20,
-    width: "60%",
+  // Custom styling to hide scrollbar in webkit browsers (like Chrome, Safari)
+  "::webkit-scrollbar": {
+    display: "none", // Hide scrollbar in Webkit browsers (Chrome, Safari)
   },
-  searchInput: {
-    background: "#000",
-    color: "#4CAF50",
-    border: "none",
-    outline: "none",
-    fontSize: "16px",
-    fontFamily: "monospace",
-    width: "100%",
+
+  // Styling for individual images
+  image: {
+    width: "660px",
+    height: "660px",
+    objectFit: "cover", // Ensure the images scale correctly
+    margin: "20px", // Added margin around each image
+    transition: "transform 0.3s ease, background-color 0.3s ease", // Smooth transition for scaling and background color
+  },
+
+  // Hover effect to scale the image smaller
+  imageHover: {
+    transform: "scale(0.9)", // Scales down the image to 90% of its original size
   },
 
   menuButton: {
@@ -135,7 +130,7 @@ const styles = {
   },
   menu: {
     position: "absolute",
-    top: "100px", // Verklein de afstand naar de menu-knop (van 150px naar 100px)
+    top: "100px",
     right: "20px",
     backgroundColor: "black",
     border: "2px solid #4CAF50",
@@ -149,21 +144,21 @@ const styles = {
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
-  
+
   menuList: {
     listStyle: "none",
     padding: "0",
     margin: "0",
     display: "flex",
     flexDirection: "column",
-    gap: "15px", // Gelijke ruimte tussen de items
-    alignItems: "flex-start", // Zorg dat de tekst links blijft uitgelijnd
+    gap: "15px", // Consistent spacing between items
+    alignItems: "flex-start",
   },
   menuItem: {
     cursor: "pointer",
-    padding: "0", // Verwijder padding hier
-    lineHeight: "1.2", // Regelafstand zonder impact op grootte
+    padding: "0", // Remove any extra padding
+    lineHeight: "1.2", // Adjust line height
+    color: "#4CAF50",
   },
-  
-  
-}  
+};
+
