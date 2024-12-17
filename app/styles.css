@@ -8,4 +8,59 @@
     .searchBar {
       display: none !important;
     }
-  }
+    .menu {
+      position: fixed !important; /* Vult het volledige scherm */
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: #4CAF50;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      z-index: 9999; /* Zorg dat het bovenop alles staat */
+    }
+    .menu ul {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+      font-size: 24px;
+      gap: 20px;
+    }
+    .menu li {
+      margin: 20px 0;
+      cursor: pointer;
+    }
+
+    .menu {
+        position: fixed; /* Laat het menu het hele scherm bedekken */
+        top: 0;
+        left: 0;
+        width: 100vw; /* Volledige breedte van de viewport */
+        height: 100vh; /* Volledige hoogte van de viewport */
+        background-color: black; /* Achtergrondkleur blijft zwart */
+        color: #4CAF50; /* Tekstkleur blijft groen */
+        z-index: 1000; /* Zorg ervoor dat het menu bovenop alle andere elementen staat */
+        padding: 20px; /* Optionele padding voor een mooiere layout */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Verticaal centreren van items */
+        align-items: center; /* Horizontaal centreren van items */
+      }
+    
+      .menuList {
+        width: 100%; /* Menu-items vullen de breedte */
+        font-size: 24px; /* Groter lettertype voor betere leesbaarheid */
+        text-align: center; /* Menu-items centreren */
+        padding: 0;
+        margin: 0;
+      }
+    
+      .menuItem {
+        margin-bottom: 20px; /* Meer ruimte tussen menu-items */
+        cursor: pointer;
+      }
+    }

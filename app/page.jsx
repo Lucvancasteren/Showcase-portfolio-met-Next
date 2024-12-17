@@ -159,7 +159,7 @@ const styles = {
   },
   menu: {
     position: "absolute",
-    top: "150px",
+    top: "100px", // Verklein de afstand naar de menu-knop (van 150px naar 100px)
     right: "20px",
     backgroundColor: "black",
     border: "2px solid #4CAF50",
@@ -167,7 +167,27 @@ const styles = {
     padding: "10px 20px",
     zIndex: 9,
     width: "300px",
+    height: "auto",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
-  menuList: { listStyle: "none", padding: "0", margin: "0", fontFamily: "monospace" },
-  menuItem: { cursor: "pointer", transition: "color 0.3s", color: "#4CAF50" },
-};
+  
+  menuList: {
+    listStyle: "none",
+    padding: "0",
+    margin: "0",
+    fontFamily: "monospace",
+    fontSize: "16px", // Terug naar een kleiner lettertype
+    textAlign: "left", // Links uitlijning van tekst
+    width: "100%", // Gebruik volledige breedte van de container
+  },
+  menuItem: {
+    cursor: "pointer",
+    transition: "color 0.3s",
+    color: "#4CAF50",
+    marginBottom: "10px", // Minder ruimte tussen items
+  },
+  
+}  
