@@ -1,75 +1,125 @@
 "use client";
 
-import Head from 'next/head';
-import Image from 'next/image';
-import '../styles/styles.css'; // Zorg ervoor dat je CSS in de juiste map staat
-import { useState } from 'react';
+import { useState } from "react";
+import { Terminal } from "lucide-react"; // Zorg ervoor dat 'lucide-react' is geïnstalleerd!
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <>
-      <Head>
-        <title>Creative Portfolio</title>
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@400;600&display=swap" 
-          rel="stylesheet"
-        />
-      </Head>
+    <div style={styles.container}>
+      {/* Video */}
+      <video
+        style={styles.video}
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/afbeeldingen/luc.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
-      <header className="flex justify-between items-center p-8 fixed w-full z-[100] font-stick-no-bills">
-        <img src="/afbeeldingen/LogoWit.png" alt="Logo" className="w-12 h-12" />
-        <button className="border border-[#2ecc71] text-white px-4 py-2 rounded-full flex items-center gap-2 cursor-pointer transition font-['Stick No Bills']">
-          AVAILABLE FOR WORK
-          <span className="inline-block w-2 h-2 bg-[#2ecc71] rounded-full"></span>
-        </button>
-        <div 
-          className="relative cursor-pointer md:flex z-[300] mr-20"
-          onClick={toggleMenu}
-        >
-          <div className="absolute inset-0 flex flex-col items-center justify-center w-12 h-12 bg-[#26548A] rounded-full">
-            {!menuOpen ? (
-              <>
-                <span className="block w-6 h-0.5 bg-white mb-1"></span>
-                <span className="block w-6 h-0.5 bg-white"></span>
-              </>
-            ) : (
-              <span className="block text-white text-2xl">&times;</span>
-            )}
-          </div>
+      {/* Knop rechtsboven */}
+      <button style={styles.menuButton} onClick={toggleMenu}>
+        <Terminal size={40} color="black" />
+      </button>
+
+      {/* Menu */}
+      {isMenuOpen && (
+        <div style={styles.menu}>
+          <ul style={styles.menuList}>
+            <li style={styles.menuItem}>home</li>
+            <li style={styles.menuItem}>about</li>
+            <li style={styles.menuItem}>projects</li>
+            <li style={styles.menuItem}>contact</li>
+            <li style={styles.menuItem}>help</li>
+          </ul>
         </div>
-      </header>
-
-      <nav className={`fixed top-0 right-0 h-full w-[250px] bg-black text-white flex flex-col items-center justify-center gap-8 z-[200] transition-transform transform ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div 
-          className="absolute top-4 right-4 cursor-pointer z-[300]"
-          onClick={toggleMenu}
-        >
-          <div className="flex items-center justify-center w-12 h-12 bg-[#26548A] rounded-full">
-            <span className="block text-white text-2xl">&times;</span>
-          </div>
-        </div>
-        <a href="#home" className="menu-item">home</a>
-        <a href="#work" className="menu-item">work</a>
-        <a href="#about" className="menu-item">about</a>
-      </nav>
-
-      <main className="hero">
-        <Image src="/afbeeldingen/model.png" alt="Profile" width={700} height={950} className="profile-image" />
-        <div className="floating-text" id="text1">LUC</div>
-        <div className="floating-text" id="text2">VAN</div>
-        <div className="floating-text" id="text3">CASTEREN</div>
-
-        <div className="taglines">
-          <div className="tagline"><span className="code">CODE</span> WITH PURPOSE.</div>
-          <div className="tagline"><span className="design">DESIGN</span> WITH PASSION</div>
-        </div>
-      </main>
-    </>
+      )}
+    </div>
   );
 }
+
+const styles = {
+  container: {
+    position: "relative",
+    height: "100vh",
+    width: "100vw",
+    backgroundColor: "black",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  video: {
+    position: "absolute",
+    top: "40%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "100%",
+    height: "180%",
+    objectFit: "contain",
+  },
+
+  menuButton: {
+    position: "absolute",
+    top: "20px",
+    right: "20px",
+    backgroundColor: "#4CAF50", // Groen
+    border: "none",
+    width: "60px", // Maak de knop kleiner
+    height: "60px", // Maak de knop kleiner
+    borderRadius: "0", // Verwijder border radius
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+    zIndex: 10,
+  },
+  
+  menu: {
+    position: "absolute",
+    top: "100px", // Ruimte tussen de knop en het menu
+    right: "20px", // Uitlijnen met de knop
+    backgroundColor: "black", // Achtergrondkleur
+    border: "2px solid #4CAF50", // Groen kader
+    color: "#4CAF50", // Groen tekstkleur
+    padding: "10px 20px", // Binnenruimte rondom de nav-links
+    zIndex: 9,
+    borderRadius: "0", // Geen afgeronde hoeken
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start", // Links uitlijnen van de tekst
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+    width: "250px", // Breder maken van het kader
+  },
+  
+  
+  menuList: {
+    listStyle: "none",
+    padding: "0",
+    margin: "0",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px", // Ruimte tussen nav-links
+    fontSize: "18px",
+    fontFamily: "monospace",
+    textAlign: "left", // Links uitlijnen van de tekst
+    width: "100%", // Zorg dat de tekstlinks de volledige breedte hebben
+  },
+  
+  menuItem: {
+    cursor: "pointer",
+    transition: "color 0.3s",
+    color: "#4CAF50",
+    padding: "5px 0", // Ruimte rondom de tekst
+  },
+  
+};
