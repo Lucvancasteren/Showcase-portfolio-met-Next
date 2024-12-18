@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Terminal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -19,7 +19,9 @@ export default function Home() {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (searchInput.toLowerCase() === "help") {
-        setDisplayText('[bject Object]undefinedUnknown command. Type "help" for available commands.undefined');
+        setDisplayText(
+          '[bject Object]undefinedUnknown command. Type "help" for available commands.undefined'
+        );
       } else if (searchInput.toLowerCase() === "projects") {
         router.push("/projects");
         setDisplayText("Navigating to projects...");
@@ -29,60 +31,77 @@ export default function Home() {
     }
   };
 
+  // Voorkom scrollbars op de body
+  useEffect(() => {
+    document.body.style.margin = "0";
+    document.body.style.overflowX = "hidden";
+  }, []);
+
   return (
-    <div style={styles.container}>
-      {/* Status Lights */}
-      <div className="statusLights" style={styles.statusLights}>
-        <div style={styles.lightRed}></div>
-        <div style={styles.lightYellow}></div>
-        <div style={styles.lightGreen}></div>
+    <>
+      <div style={styles.container}>
+        {/* Status Lights */}
+        <div className="statusLights" style={styles.statusLights}>
+          <div style={styles.lightRed}></div>
+          <div style={styles.lightYellow}></div>
+          <div style={styles.lightGreen}></div>
+        </div>
+
+        {/* Always Visible Text */}
+        <div className="alwaysVisibleText" style={styles.alwaysVisibleText}>
+          {displayText}
+        </div>
+
+        {/* Search Bar */}
+        <div className="searchBar" style={styles.searchBar}>
+          <input
+            type="text"
+            placeholder="Enter command..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            style={styles.searchInput}
+          />
+        </div>
+
+        {/* Video */}
+        <video style={styles.video} autoPlay muted loop playsInline>
+          <source src="/afbeeldingen/luc.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Menu Button */}
+        <button style={styles.menuButton} onClick={toggleMenu}>
+          <Terminal size={40} color="black" />
+        </button>
+
+        {/* Menu */}
+        {isMenuOpen && (
+          <div style={styles.menu}>
+            <ul style={styles.menuList}>
+              <Link href="/">
+                <span style={styles.menuItem}>home</span>
+              </Link>
+              <li style={styles.menuItem}>about</li>
+              <li style={styles.menuItem}>
+                <Link href="/projects">projects</Link>
+              </li>
+              <li style={styles.menuItem}>contact</li>
+              <li style={styles.menuItem}>help</li>
+            </ul>
+          </div>
+        )}
       </div>
 
-      {/* Always Visible Text */}
-      <div className="alwaysVisibleText" style={styles.alwaysVisibleText}>
-        {displayText}
-      </div>
-
-      {/* Search Bar */}
-      <div className="searchBar" style={styles.searchBar}>
-        <input
-          type="text"
-          placeholder="Enter command..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          style={styles.searchInput}
+      {/* Afbeelding onder de container en over de volledige breedte */}
+      <div style={styles.imageContainer}>
+        <img
+          src="/afbeeldingen/zwart.png"
+          alt="Example Image"
+          style={styles.image}
         />
       </div>
-
-      {/* Video */}
-      <video style={styles.video} autoPlay muted loop playsInline>
-        <source src="/afbeeldingen/luc.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-
-      {/* Menu Button */}
-      <button style={styles.menuButton} onClick={toggleMenu}>
-        <Terminal size={40} color="black" />
-      </button>
-
-      {/* Menu */}
-      {isMenuOpen && (
-        <div style={styles.menu}>
-          <ul style={styles.menuList}>
-            <Link href="/">
-              <span style={styles.menuItem}>home</span>
-            </Link>
-            <li style={styles.menuItem}>about</li>
-            <li style={styles.menuItem}>
-              <Link href="/projects">projects</Link>
-            </li>
-            <li style={styles.menuItem}>contact</li>
-            <li style={styles.menuItem}>help</li>
-          </ul>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 
@@ -115,9 +134,24 @@ const styles = {
     gap: "10px",
     zIndex: 22,
   },
-  lightRed: { width: "15px", height: "15px", backgroundColor: "#FF605C", borderRadius: "50%" },
-  lightYellow: { width: "15px", height: "15px", backgroundColor: "#FFBD44", borderRadius: "50%" },
-  lightGreen: { width: "15px", height: "15px", backgroundColor: "#00CA4E", borderRadius: "50%" },
+  lightRed: {
+    width: "15px",
+    height: "15px",
+    backgroundColor: "#FF605C",
+    borderRadius: "50%",
+  },
+  lightYellow: {
+    width: "15px",
+    height: "15px",
+    backgroundColor: "#FFBD44",
+    borderRadius: "50%",
+  },
+  lightGreen: {
+    width: "15px",
+    height: "15px",
+    backgroundColor: "#00CA4E",
+    borderRadius: "50%",
+  },
 
   alwaysVisibleText: {
     position: "absolute",
@@ -182,18 +216,15 @@ const styles = {
     alignItems: "flex-start",
   },
 
-  menuList: {
-    listStyle: "none",
-    padding: "0",
+  imageContainer: {
+    width: "100%",
     margin: "0",
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px",
-    alignItems: "flex-start",
-  },
-  menuItem: {
-    cursor: "pointer",
     padding: "0",
-    lineHeight: "1.2",
+    backgroundColor: "black", // Voorkomt witte ruimte
+  },
+  image: {
+    width: "100%", // Volledige breedte
+    height: "auto", // Houdt de hoogte in verhouding
+    display: "block", // Geen witte ruimte onder de afbeelding
   },
 };

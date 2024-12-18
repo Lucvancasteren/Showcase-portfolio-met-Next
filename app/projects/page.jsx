@@ -36,22 +36,9 @@ export default function Projects() {
         </div>
       )}
 
-      <div style={styles.imageContainer}>
-        {['mac2.png', 'qmusic2.png', 'claudy.png', 'mac2.png'].map((image, index) => (
-          <img
-            key={index}
-            src={`/afbeeldingen/${image}`}
-            alt={`Image ${index + 1}`}
-            className={`w-[660px] h-[660px] object-cover transition-all duration-300 ease-in-out
-              ${index === 0 ? 'md:ml-10' : 'md:ml-5'}
-              ${hoveredIndex === index ? 'bg-white scale-90' : 'bg-transparent'}
-              md:w-[660px] md:h-[660px] w-full h-auto`}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          />
-        ))}
+
       </div>
-    </div>
+
   );
 }
 
