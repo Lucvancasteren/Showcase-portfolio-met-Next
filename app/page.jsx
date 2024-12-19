@@ -13,25 +13,6 @@ export default function Home() {
   const [showScrollText, setShowScrollText] = useState(false);
   const [isThirdImageFixed, setIsThirdImageFixed] = useState(false);
 
-  useEffect(() => {
-  const handleScroll = () => {
-    const secondContainerBottom =
-      secondImageRef.current?.getBoundingClientRect().bottom;
-    const viewportHeight = window.innerHeight;
-
-    if (secondContainerBottom <= viewportHeight) {
-      setIsThirdImageFixed(true);
-    } else {
-      setIsThirdImageFixed(false);
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-
-
   const router = useRouter();
   const imageRef = useRef(null);
   const secondImageRef = useRef(null);
@@ -58,10 +39,25 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const handleScroll = () => {
+      const thirdContainerTop = thirdImageRef.current?.getBoundingClientRect().top;
+      const viewportHeight = window.innerHeight;
+
+      if (thirdContainerTop <= 0) {
+        setIsThirdImageFixed(true);
+      } else {
+        setIsThirdImageFixed(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log(entry.target, entry.isIntersecting); // Debugging output
           if (entry.isIntersecting && entry.target === imageRef.current) {
             setShowScrollText(true);
           } else if (entry.isIntersecting && entry.target === secondImageRef.current) {
@@ -85,7 +81,6 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log(entry.target, entry.isIntersecting); // Debugging output for fade-in
           if (entry.isIntersecting) {
             entry.target.classList.add("fade-in-visible");
           } else {
@@ -110,19 +105,16 @@ export default function Home() {
   return (
     <>
       <div style={styles.container}>
-        {/* Status Lights */}
         <div className="statusLights" style={styles.statusLights}>
           <div style={styles.lightRed}></div>
           <div style={styles.lightYellow}></div>
           <div style={styles.lightGreen}></div>
         </div>
 
-        {/* Always Visible Text */}
         <div className="alwaysVisibleText" style={styles.alwaysVisibleText}>
           {displayText}
         </div>
 
-        {/* Search Bar */}
         <div className="searchBar" style={styles.searchBar}>
           <input
             type="text"
@@ -134,18 +126,15 @@ export default function Home() {
           />
         </div>
 
-        {/* Video */}
         <video style={styles.video} autoPlay muted loop playsInline>
           <source src="/afbeeldingen/luc.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
-        {/* Menu Button */}
         <button style={styles.menuButton} onClick={toggleMenu}>
           <Terminal size={40} color="black" />
         </button>
 
-        {/* Menu */}
         {isMenuOpen && (
           <div style={styles.menu}>
             <ul style={styles.menuList}>
@@ -163,7 +152,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Eerste Image Container */}
       <div style={styles.imageContainer} ref={imageRef}>
         <img
           src="/afbeeldingen/zwart.png"
@@ -177,8 +165,10 @@ export default function Home() {
         )}
       </div>
 
-      {/* Tweede Image Container */}
-      <div style={styles.additionalImageContainer} ref={secondImageRef}>
+      <div
+        style={isThirdImageFixed ? styles.hiddenContainer : styles.additionalImageContainer}
+        ref={secondImageRef}
+      >
         <div
           className="fade-in"
           ref={(el) => (textRefs.current[0] = el)}
@@ -246,19 +236,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Derde Image Container */}
       <div style={styles.thirdImageContainer} ref={thirdImageRef}>
-        <img
-          src="/afbeeldingen/test.jpg"
-          alt="Third Example Image"
-          style={styles.fullWidthImage}
-        />
-        <div style={styles.staticTextBelow}>
-          <p>STATIC TEKST ONDER DERDE AFBEELDING</p>
-        </div>
-      </div>
-      {/* vierde Image Container */}
-      <div style={styles.fourthImageContainer} ref={thirdImageRef}>
         <img
           src="/afbeeldingen/test.jpg"
           alt="Third Example Image"
@@ -270,8 +248,8 @@ export default function Home() {
       </div>
     </>
   );
-  
 }
+
 
 const styles = {
   container: {
@@ -448,7 +426,9 @@ const styles = {
     alignItems: "center",
     gap: "20px",
     marginTop: "10px",
+    marginBottom: "40px", // Meer ruimte onder de tekst
   },
+
   subText: {
     fontSize: "3rem",
     color: "#1A1C1E",
@@ -475,14 +455,5 @@ const styles = {
     zIndex: 10,
     backgroundColor: "black",
     textAlign: "center",
-  },
-  additionalImageContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    backgroundColor: "#000000",
-    padding: "50px 20px",
-    height: "50vh", // Maak deze container lang genoeg om het effect te testen
   },
 };
